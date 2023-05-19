@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.black,
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -64,6 +64,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 15,),
             TextField(
               controller: usernameController,
+              style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
                 hintText: "User Name", hintStyle: TextStyle(color: Colors.grey),
                 icon: Icon(Icons.person_outline_outlined, color: Colors.grey,),
@@ -73,6 +74,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 5,),
             TextField(
               controller: passwordController,
+              style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
                 hintText: "Password",hintStyle: TextStyle(color: Colors.grey),
                 icon: Icon(Icons.lock_open_outlined, color: Colors.grey,),

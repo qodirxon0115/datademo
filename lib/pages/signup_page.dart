@@ -1,8 +1,8 @@
 import 'package:datademo/pages/home_page.dart';
+import 'package:datademo/service/get_service.dart';
 import 'package:flutter/material.dart';
 
 import '../model/user_model.dart';
-import '../service/db_service.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -27,9 +27,9 @@ class _SignUpState extends State<SignUp> {
 
     var user = User.from(username: username, password: password, email: email, phone: phone);
     if(username != null && password != null){
-      HiveDB.storeUser(user);
+      GetService.storeUser(user);
 
-      final  user2 = await HiveDB.loadUser();
+      final  user2 = await GetService.loadUser();
 
       print(user2.username);
       print(user2.password);
@@ -77,6 +77,7 @@ class _SignUpState extends State<SignUp> {
             const SizedBox(height: 15,),
             TextField(
               controller: emailController,
+              style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
                 hintText: "E-Mail",hintStyle: TextStyle(color: Colors.grey),
                 icon: Icon(Icons.email_outlined, color: Colors.grey,),
@@ -86,6 +87,7 @@ class _SignUpState extends State<SignUp> {
             const SizedBox(height: 15,),
             TextField(
               controller: phoneController,
+              style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
                 hintText: "Phone Number", hintStyle: TextStyle(color: Colors.grey),
                 icon: Icon(Icons.phone_outlined, color: Colors.grey,),
@@ -95,6 +97,7 @@ class _SignUpState extends State<SignUp> {
             const SizedBox(height: 15,),
             TextField(
               controller: passwordController,
+              style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
                 hintText: "Password",hintStyle: TextStyle(color: Colors.grey),
                 icon: Icon(Icons.lock_open_outlined, color: Colors.grey,),
