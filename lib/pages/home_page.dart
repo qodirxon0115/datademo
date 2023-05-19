@@ -16,26 +16,28 @@ class _HomePageState extends State<HomePage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void _doLogin(){
+  void _doSign() async{
     String username = usernameController.text.toString().trim();
     String password = passwordController.text.toString().trim();
-
     var user = User(username: username, password: password);
 
-    HiveDB().storeUser(user);
-    
-    var user2 = HiveDB().loadUser();
-     print(user2.username);
-     print(user2.password);
+    if(username != null && password != null){
+      HiveDB.storeUser(user);
+
+      final  user2 = await HiveDB.loadUser();
+
+      print(user2.username);
+      print(user2.password);
+    }
+
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.black,
-      body: Container(
-        color: Colors.black,
-        padding: const EdgeInsets.all(20),
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -46,9 +48,9 @@ class _HomePageState extends State<HomePage> {
                   height: 50,
                   width: 60,
                   decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/image_2.png"),
-                    )
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/image_2.png"),
+                      )
                   ),
                 ),
                 const SizedBox(height: 15,),
@@ -60,7 +62,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             const SizedBox(height: 15,),
-             TextField(
+            TextField(
               controller: usernameController,
               decoration: const InputDecoration(
                 hintText: "User Name", hintStyle: TextStyle(color: Colors.grey),
@@ -69,7 +71,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(height: 1,color: Colors.white,),
             const SizedBox(height: 5,),
-             TextField(
+            TextField(
               controller: passwordController,
               decoration: const InputDecoration(
                 hintText: "Password",hintStyle: TextStyle(color: Colors.grey),
@@ -84,18 +86,18 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 30,),
             Container(
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(30),
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(30),
                 ),
-              child: ElevatedButton(
-                onPressed: _doLogin,
-                child: const Icon(
-                  Icons.arrow_forward_outlined,color: Colors.white,),
-              )
-              ),
+                child: GestureDetector(
+                  onTap: _doSign,
+                  child: const Icon(
+                    Icons.arrow_forward_outlined,color: Colors.white,),
+                )
+            ),
             const SizedBox(height: 30),
 
             Container(
@@ -120,7 +122,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
+      )
     );
   }
 }

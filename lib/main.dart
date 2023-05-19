@@ -1,11 +1,14 @@
 import 'package:datademo/pages/home_page.dart';
 import 'package:datademo/pages/signup_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/adapters.dart';
 
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox("pdp_online");
+
+  await GetStorage.init();
 
   runApp(const MyApp());
 }

@@ -1,6 +1,9 @@
 import 'package:datademo/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
+import '../model/user_model.dart';
+import '../service/db_service.dart';
+
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
   static const String id = "signup_page";
@@ -16,12 +19,32 @@ class _SignUpState extends State<SignUp> {
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
 
+  Future<void> _doLogin() async {
+    String username = usernameController.text.toString().trim();
+    String email = emailController.text.toString().trim();
+    String phone = phoneController.text.toString().trim();
+    String password = passwordController.text.toString().trim();
+
+    var user = User.from(username: username, password: password, email: email, phone: phone);
+    if(username != null && password != null){
+      HiveDB.storeUser(user);
+
+      final  user2 = await HiveDB.loadUser();
+
+      print(user2.username);
+      print(user2.password);
+
+    }
+
+    Navigator.pushNamed(context, HomePage.id);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.black,
-        padding: const EdgeInsets.all(10),
+      backgroundColor: Colors.black,
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -44,6 +67,7 @@ class _SignUpState extends State<SignUp> {
 
             TextField(
               controller: usernameController,
+              style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
                 hintText: "User Name", hintStyle: TextStyle(color: Colors.grey),
                 icon: Icon(Icons.person_outline_outlined, color: Colors.grey,),
@@ -85,8 +109,8 @@ class _SignUpState extends State<SignUp> {
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(30),
                 ),
-                child: ElevatedButton(
-                  onPressed:(){},
+                child: GestureDetector(
+                  onTap: _doLogin,
                   child: const Icon(
                     Icons.arrow_forward_outlined,color: Colors.white,),
                 )
@@ -115,7 +139,7 @@ class _SignUpState extends State<SignUp> {
             ),
           ],
         ),
-      ),
+      )
     );
   }
 }
